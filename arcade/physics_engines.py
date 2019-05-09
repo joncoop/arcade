@@ -76,7 +76,7 @@ class PhysicsEnginePlatformer:
     """
 
     def __init__(self, player_sprite: Sprite, platforms: SpriteList,
-                 gravity_constant: float = 0.5):
+                 gravity_constant: float = 0.5, terminal_velocity=None):
         """
         Constructor.
         """
@@ -157,6 +157,10 @@ class PhysicsEnginePlatformer:
         # --- Add gravity
         self.player_sprite.change_y -= self.gravity_constant
 
+        # --- Limit downward velocity
+        if terminal_velocity is not None:
+            self.player_sprite.change_y = max(player_sprite.change_y, -1 * terminal_velocity)
+        
         # --- Move in the y direction
         self.player_sprite.center_y += self.player_sprite.change_y
 
